@@ -104,19 +104,25 @@ def play_hangman():  #Huvudkod
                 print(f"Grattis! Du gissade rätt ord. Ordet var: {word}")
                 break
 
-        print(f"Du klarade det på {total_guesses} gissningar.")
+            if incorrect_guesses == max_attempts:  # Om spelaren når max fel
+                print(f"\nDu förlorade! Ordet var: {word}")
+                break
+
+        print(f"Du klarade det på {total_guesses} gissningar.") if incorrect_guesses < max_attempts else print("Försök igen nästa gång!")
+
         save_name = input("Vill du spara ditt resultat på leaderboarden? (ja/nej): ").lower()
-        if save_name == "ja":
+        if save_name == "ja" and incorrect_guesses < max_attempts:  # Spara endast om man vinner
             name = input("Skriv ditt namn: ")
             save_to_leaderboard(name, total_guesses)
             print("Ditt resultat har sparats!")
-        else:
-            print("Resultatet sparades inte.")
+        elif incorrect_guesses >= max_attempts:
+            print("Resultatet sparas inte eftersom du förlorade.")
 
         #Fråga om spelaren vill spela igen
         play_again = input("\nVill du spela igen? (ja/nej): ").lower()
         if play_again != "ja":
             print("Tack för att du spelade! Hejdå! 👋")
             break  #Avslutar loopen och spelet
+
 
 play_hangman()  #Startar spelet
